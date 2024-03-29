@@ -101,7 +101,7 @@ int main(int argc, char **argv)
             }
         } while (input1 != "1" && input1 != "2");
     }
-    else
+    else if ((int)inputData["runMode"]["value"] == 1)
     {
         juncDataList = Utility::convertMapData(mapData);
         float hallwayLength = juncDataList[juncIndex].items().begin().value();
@@ -109,6 +109,10 @@ int main(int argc, char **argv)
         walkwayWidth = (float)inputData["hallwayWidth"]["value"];
         float length1Side = (hallwayLength) / 2;
         juncData = {length1Side, length1Side};
+    }
+    else {
+        // accept runMode's value = 3
+        
     }
 
     float deviationParam = randomFloat(1 - (float)inputData["experimentalDeviation"]["value"] / 100, 1 + (float)inputData["experimentalDeviation"]["value"] / 100);
