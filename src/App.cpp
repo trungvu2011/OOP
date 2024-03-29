@@ -62,6 +62,7 @@ int main(int argc, char **argv)
 {
     inputData = Utility::readInputData("data/input.json");
     mapData = Utility::readMapData("data/map.txt");
+    //hospitalData = Utility::readMapData("data/hospital.txt");
     std::string input1;
 
     if ((int)inputData["runMode"]["value"] == 0)
