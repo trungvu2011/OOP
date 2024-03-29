@@ -23,34 +23,34 @@
     "description" : "distribution of wards for personels",
     "distribution": {
       "A" : {
-        "description" : "work at Administration Center",
+        "description" : "work at Administration Center"
       },
       "B" : {
-        "description" : "work at Brain Center",
+        "description" : "work at Brain Center"
       },
       "E" : {
-        "description" : "work at E Center",
+        "description" : "work at E Center"
       },
       "F" : {
-        "description" : "work at F Center",
+        "description" : "work at F Center"
       },
       "G" : {
-        "description" : "work at G Center",
+        "description" : "work at G Center"
       },
       "L" : {
-        "description" : "work at L Center",
+        "description" : "work at L Center"
       },
       "M" : {
-        "description" : "work at M Center",
+        "description" : "work at M Center"
       },
       "N" : {
-        "description" : "work at N Center",
+        "description" : "work at N Center"
       },
       "K" : {
-        "description" : "work at K Center",
+        "description" : "work at K Center"
       },
       "W" : {
-        "description" : "work at W Center",
+        "description" : "work at W Center"
       },
       "normal" : {
         "description" : "normal distribution",
@@ -81,7 +81,7 @@
     },   
     "heuristic" : {
       "positiveEmotionThreshold" : "0.8",
-        "negativeEmotionThreshold" : "-0.8",
+        "negativeEmotionThreshold" : "-0.8"
     }
   },    
   "insideTimeDistribution" : {
@@ -105,7 +105,19 @@
         "numberOfFields" : 6
       }
     }
-  },  
+  }, 
+  "timeBetweenEventsDistribution" : {
+    "description" : "distribution of time between happended events for a pedestrian",
+    "distribution": {
+      "normal" : {
+        "description" : "normal distribution",
+        "samples" : 20,
+        "numberOfValues" : 200,
+        "minValue" : 100,
+        "maxValue" : 3600
+      }
+   }
+  },
   "noRunPerHallway": {
     "description": "Number of times the AGV runs for each hallway",
     "value": 1
@@ -150,30 +162,6 @@
     "description": "Percentage of people stopping at the hallway",
     "value": 2
   },
-  // "p1": {
-  //   "description": "Percentage of agents (No disability, without overtaking behavior)",
-  //   "value": 22
-  // },
-  // "p2": {
-  //   "description": "Percentage of agents (No disability, with overtaking behavior)",
-  //   "value": 5
-  // },
-  // "p3": {
-  //   "description": "Percentage of agents (Walking with crutches)",
-  //   "value": 17
-  // },
-  // "p4": {
-  //   "description": "Percentage of agents (Walking with sticks)",
-  //   "value": 22
-  // },
-  // "p5": {
-  //   "description": "Percentage of agents (Wheelchairs)",
-  //   "value": 17
-  // },
-  // "p6": {
-  //   "description": "Percentage of agents (The blind)",
-  //   "value": 17
-  // },
   "walkability" : {
     "description" : "velocity distribution of pedestrians",
     "distribution" : {
@@ -217,13 +205,13 @@
         "description" : "number of wards that a patient must visit",
         "value" : "3",
         "start" : "A",
-        "end": "A",
+        "end": "A"
       },
       "forVisitor" : {
         "description" : "number of wards that a visitor must visit",
         "value" : "1",
         "start" : "A",
-        "end": "A",
+        "end": "A"
       },
       "forPersonel" : {
         "description" : "number of wards that a personel must visit",
