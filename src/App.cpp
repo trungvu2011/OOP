@@ -62,7 +62,6 @@ int main(int argc, char **argv)
 {
     inputData = Utility::readInputData("data/input.json");
     mapData = Utility::readMapData("data/map.txt");
-    //hospitalData = Utility::readMapData("data/hospital.txt");
     std::string input1;
 
     if ((int)inputData["runMode"]["value"] == 0)
@@ -111,8 +110,8 @@ int main(int argc, char **argv)
         float length1Side = (hallwayLength) / 2;
         juncData = {length1Side, length1Side};
     }
-    else {
-        // accept runMode's value = 3
+    else 
+    { // accept runMode's value = 3
         
     }
 
