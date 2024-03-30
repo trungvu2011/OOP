@@ -7,6 +7,9 @@
 class Patient : public Pedestrian {
 private:
     Walkability walkability;
+public:
+    void setPatient(Walkability w);
+    Walkability getWalkability() {return walkability;}
 };
 
 #endif
