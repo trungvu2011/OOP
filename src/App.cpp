@@ -58,6 +58,8 @@ void normalKey(unsigned char key, int xMousePos, int yMousePos);
 
 void update();
 
+void test();
+
 int main(int argc, char **argv)
 {
     inputData = Utility::readInputData("data/input.json");
