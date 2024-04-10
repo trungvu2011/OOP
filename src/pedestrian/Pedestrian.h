@@ -13,7 +13,7 @@ private:
     int ID;
     Ward* start;
     Ward* end;
-    std::vector<Ward*> journey;
+    std::vector<Ward> journey;
     double velocity;
     Personality personality;
     Emotion emotion;
@@ -27,7 +27,7 @@ public:
     int getID() {return ID;}
     Ward* getStart() {return start;}
     Ward* getEnd() {return end;}
-    std::vector<Ward*> getJourney() {return journey;}
+    std::vector<Ward> getJourney() {return journey;}
     double getVelocity() {return velocity;}
     Personality getPersonality() {return personality;}
     Emotion getEmotion() {return emotion;}

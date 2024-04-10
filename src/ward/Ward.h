@@ -8,7 +8,9 @@ class Ward
 {
 private:
     std::string name;
-	Point *entry, *exit;
+	Point entrance;
+    Point exit;
+    std::vector<Point> walls;
 };
 
 #endif

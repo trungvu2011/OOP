@@ -10,6 +10,8 @@
 #include "model/SocialForce.h"
 #include "constant/Constant.h"
 #include "renderer/Renderer.h"
+#include "src/event/Event.h"
+#include "src/pedestrian/Pedestrian.h"
 
 using namespace std;
 using namespace Constant;
@@ -27,7 +29,7 @@ bool animate = false; // Animate scene flag
 float speedConsiderAsStop = 0.2;
 
 json inputData;
-std::map<std::string, std::vector<float>> mapData;
+std::map<std::string, std::vector<float>> mapData, hospitalData;
 std::vector<json> juncDataList;
 std::vector<float> juncData;
 std::string juncName;
@@ -41,6 +43,8 @@ float minSpeed = -1;
 float maxSpeed = -1;
 int threshold = 0;
 
+std::vector<Pedestrian*> pedestrians;
+
 // Function Prototypes
 void init();
 
@@ -49,6 +53,8 @@ void createWalls();
 void createAgents();
 
 void createAGVs();
+
+void createPedestrians();
 
 void display();
 
@@ -64,6 +70,7 @@ int main(int argc, char **argv)
 {
     inputData = Utility::readInputData("data/input.json");
     mapData = Utility::readMapData("data/map.txt");
+    hospitalData = Utility::readHospitalData("data/hospital.txt");
     std::string input1;
 
     if ((int)inputData["runMode"]["value"] == 0)
@@ -112,10 +119,13 @@ int main(int argc, char **argv)
         float length1Side = (hallwayLength) / 2;
         juncData = {length1Side, length1Side};
     }
-    else 
-    { // accept runMode's value = 3
+    else if ((int)inputData["runMode"]["value"] == 3)
+    {
+        
         
     }
+
+    createPedestrians();
 
     float deviationParam = randomFloat(1 - (float)inputData["experimentalDeviation"]["value"] / 100, 1 + (float)inputData["experimentalDeviation"]["value"] / 100);
     // Threshold people stopping at the corridor
@@ -147,6 +157,26 @@ int main(int argc, char **argv)
     glutMainLoop();       // Enter GLUT's main loop
 
     return 0;
+}
+
+void createPedestrians() {
+    int numOfAgents = (int)inputData["numOfAgents"]["value"];
+    std::vector<int> journeyDistribution = (std::vector<int>)inputData["journeyDistribution"];
+
+    // Create the vector of Pedestrian pointers
+    std::vector<Pedestrian> pedestrians(numOfAgents);
+
+    // Counters for Personel and noDisability people
+    int personnelCount = 0;
+    int noDisabilityCount = 0;
+
+    std::vector<Event> allEvents;
+    // Fill the vector with new Pedestrian objects
+    for (int i = 0; i < numOfAgents; ++i) {
+        std::vector<int> allTimeDistances;
+
+
+    }
 }
 
 void init()

@@ -86,6 +86,81 @@ std::map<std::string, std::vector<float>> Utility::readMapData(
     return map;
 }
 
+// read hospital data
+std::map<std::string, std::vector<float>> Utility::readHospitalData(
+    const char *fileName)
+{
+    map<std::string, std::vector<float>> map;
+    ifstream input(fileName);
+
+    std::string delimiter = " ";
+
+    int lineNo = 1;
+
+    for (std::string line; getline(input, line);)
+    {
+        vector<float> v;
+        if (lineNo == 1)
+        {
+            v.push_back(stof(line));
+            map["numI"] = v;
+        }
+        else if (lineNo < map["numI"][0] + 2)
+        {
+            size_t pos = 0;
+            std::string token;
+            int count = 0;
+            std::string wardID;
+            while ((pos = line.find(delimiter)) != std::string::npos)
+            {
+                token = line.substr(0, pos);
+                if (count == 4)
+                {
+                    wardID.assign(token);
+                }
+                else
+                {
+                    v.push_back(stof(token));
+                }
+                line.erase(0, pos + delimiter.length());
+                count++;
+            }
+            v.push_back(stof(line));
+            map[wardID] = v;
+        }
+        else if (lineNo < map["numI"][0] + 4)
+        {
+            size_t pos = 0;
+            std::string token;
+            std::string wardID;
+            while ((pos = line.find(delimiter)) != std::string::npos)
+            {
+                token = line.substr(0, pos);
+                v.push_back(stof(token));
+                line.erase(0, pos + delimiter.length());
+            }
+            v.push_back(stof(line));
+            map["A"] = v;
+        }
+        else 
+        {
+            size_t pos = 0;
+            std::string token;
+            std::string wardID;
+            while ((pos = line.find(delimiter)) != std::string::npos)
+            {
+                token = line.substr(0, pos);
+                v.push_back(stof(token));
+                line.erase(0, pos + delimiter.length());
+            }
+            v.push_back(stof(line));
+            map["Gate"] = v;
+        }
+        lineNo++;
+    }    
+    return map;
+}
+
 std::vector<json> Utility::convertMapData(
     std::map<std::string, std::vector<float>> mapData)
 {
