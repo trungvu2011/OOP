@@ -21,5 +21,5 @@ void Event::setIntensity() {
         newIntensity.push_back(row);
     }
 
-    setIntensity(newIntensity);
+    this->intensity = newIntensity;
 }

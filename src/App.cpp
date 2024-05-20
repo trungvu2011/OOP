@@ -43,7 +43,7 @@ float minSpeed = -1;
 float maxSpeed = -1;
 int threshold = 0;
 
-std::vector<Pedestrian*> pedestrians;
+std::vector<Pedestrian> pedestrians;
 
 // Function Prototypes
 void init();
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
     mapData = Utility::readMapData("data/map.txt");
     hospitalData = Utility::readHospitalData("data/hospital.txt");
     std::string input1;
-
+    /*
     if ((int)inputData["runMode"]["value"] == 0)
     {
         do
@@ -124,9 +124,10 @@ int main(int argc, char **argv)
         
         
     }
+    */
 
     createPedestrians();
-
+    /*
     float deviationParam = randomFloat(1 - (float)inputData["experimentalDeviation"]["value"] / 100, 1 + (float)inputData["experimentalDeviation"]["value"] / 100);
     // Threshold people stopping at the corridor
     threshold = int(inputData["numOfAgents"]["value"]) * deviationParam * (float)(inputData["stopAtHallway"]["value"]) / 100;
@@ -155,8 +156,30 @@ int main(int argc, char **argv)
     glutKeyboardFunc(normalKey);
     glutIdleFunc(update); // Continuously execute 'update()'
     glutMainLoop();       // Enter GLUT's main loop
-
+    */
     return 0;
+}
+
+std::vector<std::vector<double>> readEventInput() {
+    std::system("python3 data/allEventCreate/main.py > data/allEventCreate/output.txt");
+
+    std::ifstream file("data/allEventCreate/output.txt");
+    std::string line;
+    std::vector<std::vector<double>> allEvents;
+
+    while (std::getline(file, line)) {
+        std::istringstream iss(line);
+        std::vector<double> row;
+        double value;
+
+        while (iss >> value) {
+            row.push_back(value);
+        }
+
+        allEvents.push_back(row);
+    }
+
+    return allEvents;
 }
 
 void createPedestrians() {
@@ -164,18 +187,21 @@ void createPedestrians() {
     std::vector<int> journeyDistribution = (std::vector<int>)inputData["journeyDistribution"];
 
     // Create the vector of Pedestrian pointers
-    std::vector<Pedestrian> pedestrians(numOfAgents);
+    pedestrians(numOfAgents);
 
     // Counters for Personel and noDisability people
     int personnelCount = 0;
     int noDisabilityCount = 0;
 
-    std::vector<Event> allEvents;
+    std::vector<std::vector<double>> allEvents = readEventInput();
+    std::vector<int> allTimeDistances;
+
     // Fill the vector with new Pedestrian objects
     for (int i = 0; i < numOfAgents; ++i) {
-        std::vector<int> allTimeDistances;
-
-
+        vector<Event> events = ;
+        for (int j = 0; j < 20; ++j) {
+            int X = rand() % 20;
+        }
     }
 }
 

@@ -5,12 +5,11 @@
 
 class Event {
 private:
-    std::vector<std::vector<double>> intensity;
+    double intensity;
     double time;
 public:
-    void setIntensity(const std::vector<std::vector<double>>& newIntensity) {
-        intensity = newIntensity;
-    }
+    void setIntensity();
+    double getIntensity() {return intensity;}
     double getTime() {return time;}
 };
 
