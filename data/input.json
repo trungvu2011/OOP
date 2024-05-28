@@ -1,7 +1,7 @@
 {
   "runMode": {
-    "description": "Run mode (1 - Statistical calculation, 0 - Test, 3 - Simulation)",
-    "value": 3
+    "description": "Run mode (1 - Statistical calculation, 0 - Test)",
+    "value": 1
   },
   "randomness": {
     "description": "the option for establishing new randon configuration or load from the file",

@@ -10,8 +10,6 @@
 #include "model/SocialForce.h"
 #include "constant/Constant.h"
 #include "renderer/Renderer.h"
-#include "src/event/Event.h"
-#include "src/pedestrian/Pedestrian.h"
 
 using namespace std;
 using namespace Constant;
@@ -29,7 +27,7 @@ bool animate = false; // Animate scene flag
 float speedConsiderAsStop = 0.2;
 
 json inputData;
-std::map<std::string, std::vector<float>> mapData, hospitalData;
+std::map<std::string, std::vector<float>> mapData;
 std::vector<json> juncDataList;
 std::vector<float> juncData;
 std::string juncName;
@@ -43,8 +41,6 @@ float minSpeed = -1;
 float maxSpeed = -1;
 int threshold = 0;
 
-std::vector<Pedestrian> pedestrians;
-
 // Function Prototypes
 void init();
 
@@ -54,8 +50,6 @@ void createAgents();
 
 void createAGVs();
 
-void createPedestrians();
-
 void display();
 
 void reshape(int width, int height);
@@ -64,15 +58,12 @@ void normalKey(unsigned char key, int xMousePos, int yMousePos);
 
 void update();
 
-void test();
-
 int main(int argc, char **argv)
 {
     inputData = Utility::readInputData("data/input.json");
     mapData = Utility::readMapData("data/map.txt");
-    hospitalData = Utility::readHospitalData("data/hospital.txt");
     std::string input1;
-    /*
+
     if ((int)inputData["runMode"]["value"] == 0)
     {
         do
@@ -110,7 +101,7 @@ int main(int argc, char **argv)
             }
         } while (input1 != "1" && input1 != "2");
     }
-    else if ((int)inputData["runMode"]["value"] == 1)
+    else
     {
         juncDataList = Utility::convertMapData(mapData);
         float hallwayLength = juncDataList[juncIndex].items().begin().value();
@@ -119,15 +110,7 @@ int main(int argc, char **argv)
         float length1Side = (hallwayLength) / 2;
         juncData = {length1Side, length1Side};
     }
-    else if ((int)inputData["runMode"]["value"] == 3)
-    {
-        
-        
-    }
-    */
 
-    createPedestrians();
-    /*
     float deviationParam = randomFloat(1 - (float)inputData["experimentalDeviation"]["value"] / 100, 1 + (float)inputData["experimentalDeviation"]["value"] / 100);
     // Threshold people stopping at the corridor
     threshold = int(inputData["numOfAgents"]["value"]) * deviationParam * (float)(inputData["stopAtHallway"]["value"]) / 100;
@@ -156,53 +139,8 @@ int main(int argc, char **argv)
     glutKeyboardFunc(normalKey);
     glutIdleFunc(update); // Continuously execute 'update()'
     glutMainLoop();       // Enter GLUT's main loop
-    */
+
     return 0;
-}
-
-std::vector<std::vector<double>> readEventInput() {
-    std::system("python3 data/allEventCreate/main.py > data/allEventCreate/output.txt");
-
-    std::ifstream file("data/allEventCreate/output.txt");
-    std::string line;
-    std::vector<std::vector<double>> allEvents;
-
-    while (std::getline(file, line)) {
-        std::istringstream iss(line);
-        std::vector<double> row;
-        double value;
-
-        while (iss >> value) {
-            row.push_back(value);
-        }
-
-        allEvents.push_back(row);
-    }
-
-    return allEvents;
-}
-
-void createPedestrians() {
-    int numOfAgents = (int)inputData["numOfAgents"]["value"];
-    std::vector<int> journeyDistribution = (std::vector<int>)inputData["journeyDistribution"];
-
-    // Create the vector of Pedestrian pointers
-    pedestrians(numOfAgents);
-
-    // Counters for Personel and noDisability people
-    int personnelCount = 0;
-    int noDisabilityCount = 0;
-
-    std::vector<std::vector<double>> allEvents = readEventInput();
-    std::vector<int> allTimeDistances;
-
-    // Fill the vector with new Pedestrian objects
-    for (int i = 0; i < numOfAgents; ++i) {
-        vector<Event> events = ;
-        for (int j = 0; j < 20; ++j) {
-            int X = rand() % 20;
-        }
-    }
 }
 
 void init()
