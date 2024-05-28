@@ -96,4 +96,4 @@ void ex3(obJect &doituong) {
     doituong.setPersonel(bacSi);
 }
 
-#endif // EX3_H
+#endif // EX3_HPP
