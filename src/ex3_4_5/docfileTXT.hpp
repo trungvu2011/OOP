@@ -1,193 +1,151 @@
-#ifndef DOCFILETXT_HPP
-#define DOCFILETXT_HPP
+#ifndef DOC_JSON_HPP
+#define DOC_JSON_HPP
 #include <iostream>
 #include <vector>
 #include <string>
 #include <fstream>
-#include <sstream>
+#include "/home/trungvu/Workspace/OOP/OOP/lib/nlohmann/json.hpp"
 #include "lop.hpp"
-#include "doc_json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
+string name_file = "input.json";
 
-vector<int> layDulieumoiLoaiDichuyen() 
+int get_numOfAgents() 
 {
-    string filename = "outputMoiLoaiDiChuyen.txt";
-    ifstream file(filename);
-    vector<int> soLuong;
-
-    // Kiểm tra file mở thành công hay không
-    if (!file.is_open())
+    ifstream file(name_file);
+    if(!file.is_open())
     {
-        cerr << "Mở file không thành công." << std::endl;
-        return soLuong;
+        cerr << "Mở file json không thành công." << std::endl;
+        return -1;
     }
-
-    // Tổng số lượng các Perdestrian
-    int sum;
-    string line;
-    getline(file, line);
-    stringstream ss(line);
-    ss >> sum;
-    // Kiểm tra xem có lấy được dữ liệu hay không
-    if (sum != get_numOfAgents())
-    {
-        cerr << sum << endl;
-        cerr << "Dữ liệu không khớp với dữ liệu trong file." << endl;
-        return soLuong;
-    }
-
-    // Lấy số lượng từng loại di chuyển
-    while (getline(file, line)) 
-    {
-        stringstream ss(line);
-        int num;
-        while (ss >> num) 
-        {
-            soLuong.push_back(num);
-        }
-    }
+    json jsondata;
+    file >> jsondata;
     file.close();
-    cout << "Gọi thành công layDulieumoiLoaiDichuyen()!" << endl;
-    return soLuong;
+
+    int numOfAgents = jsondata["numOfAgents"]["value"];
+    cout << "Number of agents: " << numOfAgents << endl;
+
+    return numOfAgents;
 }
 
-vector<double> layTuoi()
-{
-    vector<double> tuoi;
-    string filename = "outputTuoi.txt";
-    ifstream file(filename);
-    if (!file.is_open())
-    {
-        cerr << "Mở file không thành công." << endl;
-        return tuoi;
-    }
-    string line;
-    while (getline(file, line)) 
-    {
-        double num = stod(line);
-        tuoi.push_back(num);
-    }
-    file.close();
-    cout << "Gọi thành công layTuoi()!" << endl;
-    return tuoi;
-} 
+//Số lượng khoa/viện di chuyển qua của bệnh nhân,bác sĩ,người thăm
+// journeyDistribution soLuongKhoaVien()
+// {
+//     pair<vector<Ward>,A> map;
+//     map = mapWard();
+//     journeyDistribution x;
+//     //Mở file json
+//     ifstream file(name_file);
+//     if(!file.is_open())
+//     {
+//         cerr << "Failed to open JSON file." << std::endl;
+//         return x;
+//     }
+//     //đọc dữ liệu
+//     json jsondata;
+//     file >> jsondata;
+//     file.close();
+//     x.forPatient.description = jsondata["journeyDistribution"]["distribution"]["forPatient"]["description"];
+//     x.forPatient.value = jsondata["journeyDistribution"]["distribution"]["forPatient"]["value"];
+    
+//     x.forPatient.end.setName(jsondata["journeyDistribution"]["distribution"]["forPatient"]["end"]);
 
-vector<Event> eventTacDong()
+//     x.forVisitor.description = jsondata["journeyDistribution"]["distribution"]["forVisitor"]["description"];
+//     x.forVisitor.value = jsondata["journeyDistribution"]["distribution"]["forVisitor"]["value"];
+//     x.forVisitor.start.setName(jsondata["journeyDistribution"]["distribution"]["forVisitor"]["start"]);
+//     x.forVisitor.end.setName(jsondata["journeyDistribution"]["distribution"]["forVisitor"]["end"]);
+
+//     x.forPesonel.description = jsondata["journeyDistribution"]["distribution"]["forPersonel"]["description"];
+//     x.forPesonel.value = jsondata["journeyDistribution"]["distribution"]["forPersonel"]["value"];
+//     x.forPesonel.start.setName(jsondata["journeyDistribution"]["distribution"]["forPersonel"]["start"]);
+//     x.forPesonel.end.setName(jsondata["journeyDistribution"]["distribution"]["forPersonel"]["end"]);
+// }
+
+vector<Personality> nguongCamxuc()
 {
-    vector<Event> sukien;
-    string filename = "outputTacDongSuKien.txt";
-    ifstream file(filename);
+    vector<Personality> input;
+    //Mở file json
+    ifstream file(name_file);
     if(!file.is_open())
     {
-        cerr << "Không mở được file!" << endl;
-    }
-    string line;
-    while(getline(file,line))
-    {
-        stringstream ss(line);
-        vector<double> thongso;
-        double num;
-        while(ss >> num)
-        {
-            thongso.push_back(num);
-        }
-        Event ev;
-        ev.setIntensity(thongso);
-        sukien.push_back(ev);
-    }
-    cout << "Gọi thành công eventTacDong()!" << endl;
-    return sukien;
-}
-
-vector<vector<int>> timeEvents()
-{
-    vector<vector<int>> timeAllObject;
-    string filename = "outputTimeEvents.txt";
-    ifstream file(filename);
-    if(!file.is_open())
-    {
-        cerr << "Không mở thành công file!" <<'\n';
-        return timeAllObject;
-    }
-    string line;
-    while(getline(file,line))
-    {
-        stringstream ss(line);
-        vector<int> timeOneObject;
-        double num;
-        while (ss >> num)
-        {
-            timeOneObject.push_back(num);
-        }
-        timeAllObject.push_back(timeOneObject);
-    }
-    cout << "Gọi thành công timeEvents()!" << endl;
-    return timeAllObject;
-}
-
-pair<vector<Ward>,A> mapWard()
-{
-    pair<vector<Ward>,A> input;
-    vector<Ward> khacA;
-    string filename = "hospital.txt";
-    ifstream file(filename);
-    if(!file.is_open())
-    {
-        cerr << "Mở file không thành công!" << endl;
+        cerr << "Mở file json không thành công." << std::endl;
         return input;
     }
-    string line;
-    int soKhoa;
-    getline(file,line);
-    istringstream ss(line);
-    ss >> soKhoa;
-    for(int i = 0; i < soKhoa;i++)
-    {
-        getline(file,line);
-        istringstream iss(line);
-        Point entrance;
-        Point exit;
-        double x1,y1;
-        double x2,y2;
-        double num;
-        double width;
-        string name;
-        iss >> x1 >> y1 >> x2 >> y2 >> width >> name;
-        entrance.setX(x1);
-        entrance.setY(y1);
-        exit.setX(x2);
-        exit.setY(y2);
-        Ward khoa;
-        khoa.setWidth(width);
-        khoa.setEntrance(entrance);
-        khoa.setExit(exit);
-        khoa.setName(name);
-        khacA.push_back(khoa);
-    }
-    getline(file,line);
-    istringstream aa(line);
-    string name = "A";
-    vector<Point> entrance;
-    vector<Point> exit;
-    double x1,y1,x2,y2;
-    aa >> x1 >> y1 >> x2 >> y2;
-    Point diem1(x1,y1);
-    Point diem2(x2,y2);
-    entrance.push_back(diem1);
-    entrance.push_back(diem2);
-    aa >> x1 >> y1 >> x2 >> y2;
-    Point diem3(x1,y1);
-    Point diem4(x2,y2);
-    exit.push_back(diem3);
-    exit.push_back(diem4);
-    A a;
-    a.setEntrance(entrance);
-    a.setExit(exit);
-    input.first = khacA;
-    input.second = a;
-    cout << "Gọi thành công mapWard()!" << endl;
+    //đọc dữ liệu
+    json jsondata;
+    file >> jsondata;
+    file.close();
+
+    //Kiểu tích cách open
+    Personality open;
+    //open.description = jsondata["personalityDistribution"]["distribution"]["open"]["description"];
+    open.setPositiveEmotionThreshold(jsondata["personalityDistribution"]["distribution"]["open"]["positiveEmotionThreshold"]);
+    open.setNegativeEmotionThreshold(jsondata["personalityDistribution"]["distribution"]["open"]["negativeEmotionThreshold"]);
+    open.setLambda(jsondata["personalityDistribution"]["distribution"]["open"]["lambda"]);
+    input.push_back(open);
+   //Kiểu tích cách nẻuotic
+    Personality neurotic;
+    //open.description = jsondata["personalityDistribution"]["distribution"]["open"]["description"];
+    neurotic.setPositiveEmotionThreshold(jsondata["personalityDistribution"]["distribution"]["neurotic"]["positiveEmotionThreshold"]);
+    neurotic.setNegativeEmotionThreshold(jsondata["personalityDistribution"]["distribution"]["neurotic"]["negativeEmotionThreshold"]);
+    //neurotic.setLambda(jsondata["personalityDistribution"]["distribution"]["neurotic"]["lambda"]);
+    input.push_back(neurotic);
+//     Personality heuristic;
+//     heuristic.setPositiveEmotionThreshold(jsondata["personalityDistribution"]["distribution"]["heuristic"]["positiveEmotionThreshold"]);
+//     heuristic.setNegativeEmotionThreshold(jsondata["personalityDistribution"]["distribution"]["heuristic"]["negativeEmotionThreshold"]);
+//     input.push_back(heuristic);
+    cout << "Gọi thành công ngưỡng cảm xúc!\n";
     return input;
 }
 
-#endif // DOCFILETXT_HPP
+vector<speedWalkability> getSpeedWalkability()
+{
+    vector<speedWalkability> inputSpeed;
+    //Mở file json
+    ifstream file(name_file);
+    if(!file.is_open())
+    {
+        cerr << "Failed to open JSON file." << std::endl;
+        return inputSpeed;
+    }
+    //đọc dữ liệu
+    json jsondata;
+    file >> jsondata;
+    file.close();
+    speedWalkability noDisabilityNoOvertaking ;
+    noDisabilityNoOvertaking.description = jsondata["walkability"]["distribution"]["noDisabilityNoOvertaking"]["description"];
+    noDisabilityNoOvertaking.velocity = jsondata["walkability"]["distribution"]["noDisabilityNoOvertaking"]["velocity"];
+    inputSpeed.push_back(noDisabilityNoOvertaking);
+
+    speedWalkability noDisabilityOvertaking;
+    noDisabilityOvertaking.description = jsondata["walkability"]["distribution"]["noDisabilityOvertaking"]["description"];
+    noDisabilityOvertaking.velocity = jsondata["walkability"]["distribution"]["noDisabilityOvertaking"]["velocity"];
+    inputSpeed.push_back(noDisabilityOvertaking);
+
+    speedWalkability crutches;
+    crutches.description = jsondata["walkability"]["distribution"]["crutches"]["description"];
+    crutches.velocity = jsondata["walkability"]["distribution"]["crutches"]["velocity"];
+    inputSpeed.push_back(crutches);
+
+    speedWalkability sticks;
+    sticks.description = jsondata["walkability"]["distribution"]["sticks"]["description"];
+    sticks.velocity = jsondata["walkability"]["distribution"]["sticks"]["velocity"];
+    inputSpeed.push_back(sticks);
+
+    speedWalkability wheelchairs;
+    wheelchairs.description = jsondata["walkability"]["distribution"]["wheelchairs"]["description"];
+    wheelchairs.velocity = jsondata["walkability"]["distribution"]["wheelchairs"]["velocity"];
+    inputSpeed.push_back(wheelchairs);
+
+    speedWalkability blind;
+    blind.description = jsondata["walkability"]["distribution"]["blind"]["description"];
+    blind.velocity = jsondata["walkability"]["distribution"]["blind"]["velocity"];
+    inputSpeed.push_back(blind);
+
+    cout << "Gọi thành công getSpeedWalkability().\n";
+
+    return inputSpeed;
+}
+
+#endif // DOC_JSON_HPP

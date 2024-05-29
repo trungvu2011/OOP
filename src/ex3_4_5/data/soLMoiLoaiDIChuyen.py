@@ -1,3 +1,4 @@
+
 #Hàm này sinh số lượng người tương ứng với từng loại di chuyển
 import numpy as np
 from scipy import stats

@@ -10,6 +10,7 @@
 #include "model/SocialForce.h"
 #include "constant/Constant.h"
 #include "renderer/Renderer.h"
+#include "pedestrian/Pedestrian.hpp"
 
 using namespace std;
 using namespace Constant;

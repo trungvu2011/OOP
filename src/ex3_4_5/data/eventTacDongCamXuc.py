@@ -64,5 +64,3 @@ with open(filename,"w") as file:
         for j in range(0,6):
             file.write(str(allEvents[j][i]) + ' ')
         file.write("\n")
-
-

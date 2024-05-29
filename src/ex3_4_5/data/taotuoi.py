@@ -1,3 +1,4 @@
+
 # Nhập các thư viện cần thiết
 import numpy as np
 import scipy.stats as stats
@@ -59,4 +60,3 @@ else:
         
     f.close()
     print("Ghi dữ liệu thành công")
-
