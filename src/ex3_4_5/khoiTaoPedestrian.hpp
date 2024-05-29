@@ -44,17 +44,17 @@ obJect khoitaodoituong()
     wheelchairs = 4,//Di chuyển bằng xe lăn
     blind = 5//Dị mù
     */
-    vector<int> soLudiChuyen = layDulieumoiLoaiDichuyen();
+    vector<int> soLudiChuyen = layDulieumoiLoaiDichuyen();    
     // Tuổi của các Object
     vector<double> ageObject = layTuoi();
     // Các thông số khoa viện
     pair<vector<Ward>, A> inputWard = mapWard();
 
     // Số lượng đối tương
-    int M = get_numOfPedestrian();
+    int M = get_numOfAgents();
     cout << "M: " << M << endl;
     // Ngưỡng cảm xúc tích cực/tiêu cực 0-open, 1-neurotic, 2-heuristic
-    vector<Personality> inputNguongCamXuc = layNguongCamXuc();
+    vector<Personality> inputNguongCamXuc = nguongCamxuc();
     // tốc độ của từng kiểu di chuyển
     vector<speedWalkability> inputSpeed = getSpeedWalkability();
 
@@ -63,7 +63,7 @@ obJect khoitaodoituong()
 
     // Lưu trữ tất cả đối tượng
     vector<Patient> nguoiBenh;
-    vector<Vistor> nguoiTham;
+    vector<Visitor> nguoiTham;
     vector<Personel> bacSi;
 
     int numPatient = 0; // Số lượng bệnh nhân
@@ -74,7 +74,7 @@ obJect khoitaodoituong()
     int numLoaiCamXuc[2] = {0, 0};
     // đối tượng dưới 11 tuổi
     vector<int> age11;
-    for (int i = 0; i < ageObjec.size(); i++) 
+    for (int i = 0; i < ageObject.size(); i++) 
     {
         if (ageObject[i] < 11) 
         {
@@ -182,26 +182,26 @@ obJect khoitaodoituong()
         //Personel- bác sĩ không thể có tuổi < 23 hoặc > 63
         else if(ageObject[k] < 23.0 || ageObject[k] > 63.0)
         {
-            rd = randomnumber(0,1);
+            rd = randomInt(0,1);
         }
         //Đảm bảo điều kiện số Personel bé hơn noDisability
         else if(sumNoDisability == numPersonel + 1)
         {
-            rd = randomnumber(0,1);
+            rd = randomInt(0,1);
         }
         else
         {
-            rd = randomnumber(0,2);
+            rd = randomInt(0,2);
         }
         switch (rd)
         {
             //Xử lí dữ liệu với Patient- bệnh nhân
             case 0:
             {
-                Patitent object;
+                Patient object;
                 object.setID(k);//Thiết lặp ID
                 object.setAge(ageObject[k]);//Thiết lặp tuổi
-                object.setValues(3);//Số lượng khóa/viện cần đi qua
+                object.setValue(3);//Số lượng khóa/viện cần đi qua
                 //Khởi tạo Ward start
                 object.setStart(inputWard.second);
                 //Khởi tạo điểm kết thúc
@@ -210,7 +210,7 @@ obJect khoitaodoituong()
                 bool speedTest = false;
                 while(!speedTest)
                 {
-                    int speed = randomnumber(0,5);
+                    int speed = randomInt(0,5);
                     if(soLudiChuyen[speed] > 0)
                     {
                         Walkability typeWalk{static_cast<Walkability>(speed)};
@@ -221,7 +221,7 @@ obJect khoitaodoituong()
                     }
                 }
                 numPatient++;
-                nguoibenh.push_back(object);
+                nguoiBenh.push_back(object);
                 break;
             }
             //Xử lí với Visitol
@@ -230,7 +230,7 @@ obJect khoitaodoituong()
                 Visitor object;
                 object.setID(k);//Thiết lặp ID
                 object.setAge(ageObject[k]);//Thiết lặp tuổi
-                object.setValues(1);//Số lượng khoa/viện cần đi qua
+                object.setValue(1);//Số lượng khoa/viện cần đi qua
                 //Khởi tạo Ward start
                 object.setStart(inputWard.second);
                 //Khởi tạo điểm kết thúc
@@ -240,7 +240,7 @@ obJect khoitaodoituong()
                 bool speedTest = false;
                 while(!speedTest)
                 {
-                    int speed = randomnumber(0,5);
+                    int speed = randomInt(0,5);
                     if(soLudiChuyen[speed] > 0)
                     {
                         Walkability typeWalk{static_cast<Walkability>(speed)};
@@ -260,7 +260,7 @@ obJect khoitaodoituong()
                 Personel object;
                 object.setID(k);//Thiết lặp ID
                 object.setAge(ageObject[k]);//Thiết lặp tuổi
-                object.setValues(3);
+                object.setValue(3);
                 //Khởi tạo Ward start
                 object.setStart(inputWard.second);
                 //Khởi tạo điểm kết thúc
@@ -281,9 +281,9 @@ obJect khoitaodoituong()
     }
     //lưu giữ các đối tượng theo từng loại
     obJect doiTuong;
-    doiTuong.setPatient(nguoibenh);
-    doiTuong.setVisitor(nguoiTham);
-    doiTuong.setPersonel(bacSi);
+    doiTuong.setNguoiBenh(nguoiBenh);
+    doiTuong.setNguoiTham(nguoiTham);
+    doiTuong.setBacSi(bacSi);
     return doiTuong;
 }
 

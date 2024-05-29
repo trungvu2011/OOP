@@ -1,6 +1,7 @@
-#ifdef LOP_HPP
+#ifndef LOP_HPP
 #define LOP_HPP
 #include <vector>
+#include <string>
 using namespace std;
 
 class Point
@@ -14,6 +15,7 @@ class Point
             this->x = x;
             this->y = y;
         }
+        Point() {}
         double getX() { return x; } 
         double getY() { return y; }
 
@@ -53,7 +55,7 @@ class Ward
         void setWallCoordinate(vector<pair<Point, Point>> wallCoordinate) { this->wallCoordinate = wallCoordinate; }
 };
 
-class A : puble Ward 
+class A : public Ward 
 {
     private:
         vector<Point> entrance; // 2 điểm đầu vào
@@ -166,7 +168,7 @@ class Personality
         void setNegativeEmotionThreshold(double negativeEmotionThreshold) { this->negativeEmotionThreshold = negativeEmotionThreshold; }
 };
 
-class Perdestrian
+class Pedestrian
 {
     protected:
         int ID; // ID của người đi bộ
@@ -178,14 +180,14 @@ class Perdestrian
         Emotion emotion; // Cảm xúc của người đi bộ
         vector<Event> events; // Danh sách các sự kiện tác động đến người đi bộ
         double walkingTime; // Thời gian di chuyển
+        int values; //Số lượng các khoa viện cần đến;
         double distance; // Khoảng cách di chuyển
         double age; // Tuổi của người đi bộ
         AGVEvent impactOfAGV; // Sự kiện tác động đến người đi bộ
         Point tempPoints; // Điểm tạm
     public:
-        Perdestrian(int ID, Ward start, Ward end, vector<Ward> journey, double velocity, Personality personality, 
-                    Emotion emotion, vector<Event> events, double walkingTime, double distance, double age, 
-                    AGVEvent impactOfAGV, Point tempPoints)
+        Pedestrian(int ID,Ward start,Ward end,vector<Ward> journey,double velocity,Personality personality,Emotion emotion,
+        vector<Event> events,double walkingTime,int values,double distance,double age,AGVEvent impactOfAGV,Point tempPoints)
         {
             this->ID = ID;
             this->start = start;
@@ -196,13 +198,16 @@ class Perdestrian
             this->emotion = emotion;
             this->events = events;
             this->walkingTime = walkingTime;
+            this->values = values;
             this->distance = distance;
             this->age = age;
-            this->impactOfAGV = impactOfAGV;
+            this-> impactOfAGV = impactOfAGV;
             this->tempPoints = tempPoints;
-        }
-        Perdestrian() {}
 
+        }
+        Pedestrian() {}
+
+        int getValue() { return values; }
         int getID() { return ID; }
         Ward getStart() { return start; }
         Ward getEnd() { return end; }
@@ -217,6 +222,7 @@ class Perdestrian
         AGVEvent getImpactOfAGV() { return impactOfAGV; }
         Point getTempPoints() { return tempPoints; }
         
+        void setValue(int values) { this->values = values; }
         void setID(int ID) { this->ID = ID; }
         void setStart(Ward start) { this->start = start; }
         void setEnd(Ward end) { this->end = end; }
@@ -233,21 +239,21 @@ class Perdestrian
 };
 
 // lớp bệnh nhân
-class Patient : public Perdestrian
+class Patient : public Pedestrian
 {
     private:
-        walkability walkability; // Kiểu di chuyển
+        Walkability walkability; // Kiểu di chuyển
     public:
         Walkability getWalkability() { return walkability; }
         void setWalkability(Walkability walkability) { this->walkability = walkability; }
-        Paintient() {}
+        Patient() {}
 };
 
 // lớp người thăm bệnh nhân
-class Visitor : public Perdestrian
+class Visitor : public Pedestrian
 {
     private:
-        walkability walkability; // Kiểu di chuyển
+        Walkability walkability; // Kiểu di chuyển
     public:
         Walkability getWalkability() { return walkability; }
         void setWalkability(Walkability walkability) { this->walkability = walkability; }
@@ -255,7 +261,7 @@ class Visitor : public Perdestrian
 };
 
 // lớp bác sĩ
-class Personel : public Perdestrian
+class Personel : public Pedestrian
 {
 
 };
@@ -283,7 +289,7 @@ class runMode
 {
     public:
         int value; // giá trị chấp nhận file hospital.txt
-}
+};
 
 // Sinh ngẫu nhiên/nạp dữ liệu 
 class randomness 
@@ -327,9 +333,9 @@ class journeyDistribution
                 Ward start; // khoa viện bắt đầu
                 Ward end; // khoa viện kết thúc
         };  
-        typeOfObject forPaient; // Số khoa viện đi qua của bệnh nhân
-        typeOfObject forVisitor; // Số khoa viện đi qua của người thăm
-        typeOfObject forPersonel; // Số khoa viện đi qua của bác sĩ
+        typeObject forPaient; // Số khoa viện đi qua của bệnh nhân
+        typeObject forVisitor; // Số khoa viện đi qua của người thăm
+        typeObject forPersonel; // Số khoa viện đi qua của bác sĩ
         
 };
 

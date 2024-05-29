@@ -3,17 +3,29 @@
 #include <map>
 #include <algorithm>
 #include "docfileTXT.hpp"
-#include "bai4.hpp"
+#include "Ex4.hpp"
 using namespace std;
+
+Ward findWardMax(string name, vector<Ward> cacKhoaVien) 
+{
+    for (Ward a : cacKhoaVien) 
+    {
+        if (a.getName() == name) 
+        {
+            return a;
+        }
+    }
+    return cacKhoaVien[0];
+}
 
 void ex5(obJect& doituong) 
 {
-    vector<Patient> nguoiBenh = doituong.getPatient();
-    vector<Visitor> nguoiTham = doituong.getVisitor();
-    vector<Personel> bacSi = doituong.getPersonel();
+    vector<Patient> nguoiBenh = doituong.getNguoiBenh();
+    vector<Visitor> nguoiTham = doituong.getNguoiTham();
+    vector<Personel> bacSi = doituong.getBacSi();
 
     // Số lượng đối tượng
-    int M = get_numOfPedestrian();
+    int M = get_numOfAgents();
     int single = nguoiTham.size();
     int triple = nguoiBenh.size() + bacSi.size();
 
@@ -28,7 +40,7 @@ void ex5(obJect& doituong)
         vector<pair<Ward, int>> numKhoa = ex4(cacKhoaVien, triple, single);
 
         // map lưu trữ số lần xuất hiện của các khoa
-        map<string, int> numWard;
+        std::map<string, int> numWard;
         for (pair<Ward, int> a : numKhoa) 
         {
             numWard[a.first.getName()] += a.second;
@@ -45,7 +57,7 @@ void ex5(obJect& doituong)
 
         for (int i = 0; i < M; ++i) 
         {
-            if (demVisitor < nguoiTham.size() && nguoiTham[denVistor].getID == i)
+            if (demVisitor < nguoiTham.size() && nguoiTham[demVisitor].getID() == i)
             {
                 // Sắp xếp theo thứ tự giảm dần
                 sort(numWardSort.begin(), numWardSort.end(), [](pair<string, int>& a, pair<string, int>& b) {
@@ -144,9 +156,9 @@ void ex5(obJect& doituong)
     } while (test);
 
     // Cập nhật lại các đối tượng
-    doituong.setPatient(nguoiBenh);
-    doituong.setVisitor(nguoiTham);
-    doituong.setPersonel(bacSi);
+    doituong.setNguoiBenh(nguoiBenh);
+    doituong.setNguoiTham(nguoiTham);
+    doituong.setBacSi(bacSi);
 }
 
 

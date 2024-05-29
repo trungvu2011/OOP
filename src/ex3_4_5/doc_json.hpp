@@ -1,10 +1,10 @@
-#ifdef DOC_JSON_HPP
+#ifndef DOC_JSON_HPP
 #define DOC_JSON_HPP
 #include <iostream>
 #include <vector>
 #include <string>
 #include <fstream>
-#include "json.hpp"
+#include "/home/trungvu/Workspace/OOP/OOP/lib/nlohmann/json.hpp"
 #include "lop.hpp"
 
 using namespace std;

@@ -1,4 +1,4 @@
-#ifdef DOCFILETXT_HPP
+#ifndef DOCFILETXT_HPP
 #define DOCFILETXT_HPP
 #include <iostream>
 #include <vector>
@@ -30,8 +30,9 @@ vector<int> layDulieumoiLoaiDichuyen()
     stringstream ss(line);
     ss >> sum;
     // Kiểm tra xem có lấy được dữ liệu hay không
-    if (sum != get_numOfPedestrian())
+    if (sum != get_numOfAgents())
     {
+        cerr << sum << endl;
         cerr << "Dữ liệu không khớp với dữ liệu trong file." << endl;
         return soLuong;
     }

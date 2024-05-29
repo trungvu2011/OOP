@@ -31,14 +31,14 @@ pleasure = 0.75; surprise = 0.5; anger = fear = -0.2; hate = sad = -0.4
 using namespace std;
 
 void ex3(obJect &doituong) {
-    vector<Patient> nguoiBenh = doituong.getPatient();
-    vector<Personel> nguoiTham = doituong.getVisitor();
-    vector<Vistor> bacSi = doituong.getPersonel();
+    vector<Patient> nguoiBenh = doituong.getNguoiBenh();
+    vector<Visitor> nguoiTham = doituong.getNguoiTham();
+    vector<Personel> bacSi = doituong.getBacSi();
 
     // lấy dữ liệu đầu vào có 43 sự kiện
     vector<Event> allEvents = eventTacDong();
     // lấy thời gian sự kiện tác động của tất cả các đối tượng
-    vector<vector<int>> allTimeDistances = timeEvent();
+    vector<vector<int>> allTimeDistances = timeEvents();
     // khởi tạo generator ngẫu nhiên
     random_device rd;
     mt19937 gen(rd());
@@ -91,9 +91,9 @@ void ex3(obJect &doituong) {
     }
     
     // Cập nhật lại các đối tượng
-    doituong.setPatient(nguoiBenh);
-    doituong.setVisitor(nguoiTham);
-    doituong.setPersonel(bacSi);
+    doituong.setNguoiBenh(nguoiBenh);
+    doituong.setNguoiTham(nguoiTham);
+    doituong.setBacSi(bacSi);
 }
 
 #endif // EX3_HPP

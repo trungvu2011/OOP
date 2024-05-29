@@ -5,7 +5,7 @@ import os
 
 # Số lượng mẫu, tổng giá trị của các mẫu, cận dưới và cận trên của các giá trị mẫu
 num_samples = 6
-total_value = 60
+total_value = 50
 lower_bound = 0
 upper_bound = 12
 

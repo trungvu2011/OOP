@@ -35,7 +35,7 @@ vector<pair<Ward, int>> ex4(vector<Ward>& input, int triple, int single)
 {
     vector<pair<Ward, int>> result;
 
-    int numOfAgents = get_numOfAgent(); // Tổng số người trong bệnh viện
+    int numOfAgents = get_numOfAgents(); // Tổng số người trong bệnh viện
     if (numOfAgents == -1) 
     {
         cerr << "Lỗi khi lấy số lượng người trong bệnh viện." << endl;
