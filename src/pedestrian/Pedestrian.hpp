@@ -173,18 +173,24 @@ class Pedestrian
             }
             return allEvents;
         }
+
+        virtual Walkability getWalkability() { return Walkability::noDisabilityNoOvertaking; } 
 };
 
 class Patient : public Pedestrian
 {
     private:
         Walkability walkability;
+    public:
+        Walkability getWalkability() { return walkability; }
 };
 
 class Visitor: public Pedestrian
 {
     private:
         Walkability walkability;
+    public:
+        Walkability getWalkability() { return walkability; }
 };
 
 class Personel: public Pedestrian{};
@@ -196,5 +202,7 @@ void generatePedestrian();
 vector<Event> generateEvents();
 
 vector<vector<double>> eventsImpact(Pedestrian p, int timeHorizon);
+
+
 
 #endif // PEDESTRIAN_HPP

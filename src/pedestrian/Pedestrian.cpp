@@ -7,6 +7,7 @@
 #include <sstream>
 #include <random>
 #include <cmath>
+#include <unordered_set>
 
 using namespace std;
 using json = nlohmann::json;
@@ -309,3 +310,206 @@ vector<vector<double>> eventsImpact(Pedestrian p, int timeHorizon)
 
     return allEmotions;
 }
+
+// Excersice 7
+
+vector<vector<double>> getImpact(int numOfSamples, int numOfValues, double minValue, double maxValue) 
+{
+    vector<vector<double>> impacts(6, vector<double>(numOfValues));
+
+    random_device rd;
+    mt19937 gen(rd());
+    double mean = (minValue + maxValue) / 2;
+    double std = (maxValue - mean) / 3;
+    uniform_real_distribution<double> dis(minValue, maxValue);
+    normal_distribution<double> dist(mean, std);
+
+    for (auto& emotion : impacts) {
+        generate(emotion.begin(), emotion.end(), [&]() {
+            double value = dist(gen);
+            return max(minValue, min(value, maxValue)); // Clamp values to range [minValue, maxValue]
+        });
+    }
+    return impacts;
+}
+
+bool isChild(Pedestrian p) 
+{
+    return p.getAge() < 12;
+}
+
+int countYoungerThan12(vector<Pedestrian>& allPedestrians) 
+{
+    int count = 0;
+    for (auto& pedestrian : allPedestrians) 
+    {
+        if (isChild(pedestrian))
+        {
+            count++;
+        }
+    }
+    return count;
+}
+
+bool isALKW(Pedestrian p) 
+{
+    string name = p.getStart().getName();
+    return name == "A" || name == "L" || name == "K" || name == "W";
+}
+
+int countALKW(vector<Pedestrian> allPedestrians) 
+{
+    int count = 0;
+    for (auto& pedestrian : allPedestrians) 
+    {   
+        if (isALKW(pedestrian))  
+        {
+            count++;
+        }
+    }
+    return count;
+}
+
+bool isBFGMEN(Pedestrian p) 
+{
+    string name = p.getStart().getName();
+    return name == "B" || name == "F" || name == "G" || name == "M" || name == "E" || name == "N";
+}
+
+int countBFGMEN(vector<Pedestrian> allPedestrians) 
+{
+    int count = 0;
+    for (auto& pedestrian : allPedestrians) 
+    {
+        if (isBFGMEN(pedestrian)) 
+        {
+            count++;
+        }
+    }
+    return count;
+}
+
+bool isElder(Pedestrian p) 
+{
+    return p.getAge() > 60;
+}
+
+int countOlderThan60(vector<Pedestrian> allPedestrians) 
+{
+    int count = 0;
+    for (auto& pedestrian : allPedestrians) 
+    {
+        if (isElder(pedestrian)) 
+        {
+            count++;
+        }
+    }
+    return count;
+}
+
+bool isBlinder(Pedestrian p) 
+{
+    return p.getWalkability() == blind;
+}
+
+int countBlinder(vector<Pedestrian> allPedestrians)
+{
+    int count = 0;
+    for (auto& pedestrian : allPedestrians) 
+    {
+        if (isBlinder(pedestrian)) 
+        {
+            count++;
+        }
+    }
+    return count;
+}
+
+vector<vector<double>> assignAGVImpacts(vector<Pedestrian> allPedestrians) 
+{
+    int nChildren = countYoungerThan12(allPedestrians);
+    vector<vector<double>> impactToChildren = getImpact(nChildren, 100, 0.01, 0.99);
+    for (auto& row : impactToChildren) {
+        for (auto& val : row) {
+            val *= -1;
+        }
+    }
+
+    int nPersonnelOfALKW = countALKW(allPedestrians);
+    vector<vector<double>> impactToALKW = getImpact(nPersonnelOfALKW, 100, -0.29, 0.99);
+    for (auto& row : impactToALKW) {
+        for (auto& val : row) {
+            val *= -1;
+        }
+    }
+
+    int nPersonnelOfBFGMEN = countBFGMEN(allPedestrians);
+    vector<vector<double>> impactToBFGMEN = getImpact(nPersonnelOfBFGMEN, 100, -0.29, 0.99);
+    for (auto& row : impactToBFGMEN) {
+        for (auto& val : row) {
+            val *= -1;
+        }
+    }
+
+    int nElder = countOlderThan60(allPedestrians);
+    vector<vector<double>> impactToElder = getImpact(nElder, 100, -0.29, 0.99);
+    for (auto& row : impactToBFGMEN) {
+        for (auto& val : row) {
+            val *= -1;
+        }
+    }
+
+    int nBlinder = countBlinder(allPedestrians);
+    vector<vector<double>> impactToBlinder = getImpact(nBlinder, 100, -0.29, 0.99);
+    for (auto& row : impactToBlinder) {
+        for (auto& val : row) {
+            val *= -1;
+        }
+    }
+
+    int nOthers = allPedestrians.size() - (nChildren + nPersonnelOfALKW + nPersonnelOfBFGMEN + nElder + nBlinder);
+    vector<vector<double>> impactToOthers = getImpact(nOthers, 100, -0.69, 0.99);
+
+    vector<vector<double>> impactOfAGV(allPedestrians.size(), vector<double>(6, 0));
+    for (int i = 0; i < allPedestrians.size(); ++i)
+    {   
+        auto& person = allPedestrians[i];
+        vector<vector<int>> impactOfAGV(6, vector<int>(1, 0));
+        if (isChild(person)) 
+        {
+            for (int j = 0; j < 6; ++j)
+                impactOfAGV[i][j] += impactToChildren[i][j];
+        }
+        else if (isALKW(person)) 
+        {
+            for (int j = 0; j < 6; ++j)
+                impactOfAGV[i][j] += impactToALKW[i][j];
+        }
+        else if (isBFGMEN(person)) 
+        {
+            for (int j = 0; j < 6; ++j)
+                impactOfAGV[i][j] += impactToBFGMEN[i][j];
+        }
+        else if (isElder(person)) 
+        {
+            for (int j = 0; j < 6; ++j)
+                impactOfAGV[i][j] += impactToElder[i][j];
+        }
+        else if (isBlinder(person)) 
+        {
+            for (int j = 0; j < 6; ++j)
+                impactOfAGV[i][j] += impactToBlinder[i][j];
+        }
+        else 
+        {
+            for (int j = 0; j < 6; ++j)
+                impactOfAGV[i][j] += impactToOthers[i][j];
+        }
+    }
+    return impactOfAGV;
+}
+
+
+
+
+
