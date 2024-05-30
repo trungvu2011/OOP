@@ -117,7 +117,7 @@ class Personality
 class Pedestrian
 {
     protected:
-        int ID; 
+        string ID; 
         Ward start; 
         Ward end; 
         vector<Ward> journey; 
@@ -132,7 +132,7 @@ class Pedestrian
         Point tempPoints; 
     public:
         // getter methods
-        int getID() { return ID; }
+        string getID() { return ID; }
         Ward getStart() { return start; }
         Ward getEnd() { return end; }
         vector<Ward> getJourney() { return journey; }
@@ -147,7 +147,7 @@ class Pedestrian
         Point getTempPoints() { return tempPoints; }
         
         // setter methods
-        void setID(int ID) { this->ID = ID; }
+        void setID(string ID) { this->ID = ID; }
         void setStart(Ward start) { this->start = start; }
         void setEnd(Ward end) { this->end = end; }
         void setJourney(vector<Ward> journey) { this->journey = journey; }
@@ -172,6 +172,13 @@ class Pedestrian
                 }
             }
             return allEvents;
+        }
+        vector<int> getEventsTime() 
+        {
+            vector<int> time;
+            for (int i = 0; i < 19; ++i) 
+                time.push_back(events.at(i).getTime());
+            return time;
         }
 
         virtual Walkability getWalkability() { return Walkability::noDisabilityNoOvertaking; } 
