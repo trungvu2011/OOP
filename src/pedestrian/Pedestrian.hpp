@@ -204,12 +204,12 @@ class Personel: public Pedestrian{};
 
 vector<Ward> generateWard();
 
-void generatePedestrian();
+vector<Pedestrian> generatePedestrian(int);
 
 vector<Event> generateEvents();
 
 vector<vector<double>> eventsImpact(Pedestrian p, int timeHorizon);
 
-
+void leavingDistribution(string name);
 
 #endif // PEDESTRIAN_HPP

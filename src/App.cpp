@@ -11,6 +11,7 @@
 #include "constant/Constant.h"
 #include "renderer/Renderer.h"
 #include "pedestrian/Pedestrian.hpp"
+// #include "pedestrian/Distribution.hpp"
 
 using namespace std;
 using namespace Constant;
@@ -131,6 +132,11 @@ int main(int argc, char **argv)
     {
         glutHideWindow();
     }
+
+    generatePedestrian(1);
+    leavingDistribution("A");
+    vector<Pedestrian> pedestrians = generatePedestrian(0);
+    vector<vector<double>>allEmo = eventsImpact(pedestrians[0],2);
 
     init();                   // Initialization
     glutDisplayFunc(display); // Send graphics to display window
